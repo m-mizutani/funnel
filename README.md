@@ -1,4 +1,5 @@
 # funnel
 A tool to gather IoC feeds from provider and aggregate to BigQuery
 
-![logo](https://github.com/m-mizutani/funnel/assets/605953/2ef0c541-6558-4b7a-b7c8-a84e4a0f1a5d)
+![logo](https://github-production-user-asset-6210df.s3.amazonaws.com/605953/293287858-3c576685-d9e2-46c6-9cdb-f55d83dbe170.png)
+
