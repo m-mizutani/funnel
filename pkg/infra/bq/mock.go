@@ -2,16 +2,10 @@ package bq
 
 import (
 	"context"
-	"time"
 
 	"github.com/m-mizutani/pacman/pkg/domain/interfaces"
 	"github.com/m-mizutani/pacman/pkg/domain/model"
 )
-
-type mockRecord struct {
-	TableName string    `bigquery:"table_name"`
-	Timestamp time.Time `bigquery:"timestamp"`
-}
 
 type Mock struct {
 	InsertedData []any

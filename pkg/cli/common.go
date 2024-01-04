@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/urfave/cli/v2"
 )
 
@@ -17,17 +15,4 @@ func mergeFlags(base []cli.Flag, configs ...flagConfig) []cli.Flag {
 	}
 
 	return ret
-}
-
-func convertToBps(bytes float64) string {
-	bytes = bytes * 8
-	units := []string{"bps", "Kbps", "Mbps", "Gbps", "Tbps", "Pbps", "Ebps"}
-
-	unitIndex := 0
-	for bytes >= 1024 && unitIndex < len(units)-1 {
-		bytes /= 1024
-		unitIndex++
-	}
-
-	return fmt.Sprintf("%.2f %s", bytes, units[unitIndex])
 }
