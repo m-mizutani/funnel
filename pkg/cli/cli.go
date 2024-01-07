@@ -1,9 +1,9 @@
 package cli
 
 import (
-	"github.com/m-mizutani/pacman/pkg/cli/config"
-	"github.com/m-mizutani/pacman/pkg/domain/types"
-	"github.com/m-mizutani/pacman/pkg/utils"
+	"github.com/m-mizutani/drone/pkg/cli/config"
+	"github.com/m-mizutani/drone/pkg/domain/types"
+	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/urfave/cli/v2"
 )
 
@@ -15,7 +15,7 @@ func Run(args []string) error {
 	)
 
 	app := cli.App{
-		Name:    "pacman",
+		Name:    "drone",
 		Flags:   mergeFlags([]cli.Flag{}, &logger),
 		Version: types.AppVersion,
 		Commands: []*cli.Command{
@@ -38,7 +38,7 @@ func Run(args []string) error {
 	}
 
 	if err := app.Run(args); err != nil {
-		utils.Logger().Error("Failed to run pacman", utils.ErrLog(err))
+		utils.Logger().Error("Failed to run drone", utils.ErrLog(err))
 		return err
 	}
 

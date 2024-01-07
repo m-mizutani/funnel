@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"cloud.google.com/go/bigquery"
+	"github.com/m-mizutani/drone/pkg/domain/interfaces"
+	"github.com/m-mizutani/drone/pkg/domain/model"
+	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/m-mizutani/goerr"
-	"github.com/m-mizutani/pacman/pkg/domain/interfaces"
-	"github.com/m-mizutani/pacman/pkg/domain/model"
-	"github.com/m-mizutani/pacman/pkg/utils"
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"

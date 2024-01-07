@@ -4,10 +4,10 @@ on:
   push:
 
 env:
-  TAG_NAME: pacman:${{ github.sha }}
+  TAG_NAME: drone:${{ github.sha }}
   BUILD_VERSION: ${{ github.sha }}
-  GITHUB_IMAGE_REPO: ghcr.io/${{ github.repository_owner }}/pacman
-  GITHUB_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/pacman:${{ github.sha }}
+  GITHUB_IMAGE_REPO: ghcr.io/${{ github.repository_owner }}/drone
+  GITHUB_IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/drone:${{ github.sha }}
 
 jobs:
   build:

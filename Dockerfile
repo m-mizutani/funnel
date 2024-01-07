@@ -3,9 +3,9 @@ ENV CGO_ENABLED=0
 ARG BUILD_VERSION
 COPY . /app
 WORKDIR /app
-RUN go build -o pacman -ldflags "-X github.com/m-mizutani/pacman/pkg/domain/types.AppVersion=${BUILD_VERSION}" .
+RUN go build -o drone -ldflags "-X github.com/m-mizutani/drone/pkg/domain/types.AppVersion=${BUILD_VERSION}" .
 
 FROM gcr.io/distroless/base
-COPY --from=build-go /app/pacman /pacman
+COPY --from=build-go /app/drone /drone
 
-ENTRYPOINT ["/pacman"]
+ENTRYPOINT ["/drone"]

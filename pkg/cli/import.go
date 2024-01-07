@@ -1,10 +1,10 @@
 package cli
 
 import (
+	"github.com/m-mizutani/drone/pkg/cli/config"
+	"github.com/m-mizutani/drone/pkg/feed/abusech"
+	"github.com/m-mizutani/drone/pkg/feed/otx"
 	"github.com/m-mizutani/goerr"
-	"github.com/m-mizutani/pacman/pkg/cli/config"
-	"github.com/m-mizutani/pacman/pkg/feed/abusech"
-	"github.com/m-mizutani/pacman/pkg/feed/otx"
 	"github.com/urfave/cli/v2"
 )
 
@@ -44,7 +44,7 @@ func subImportOtx(cfg *importConfig) *cli.Command {
 			&cli.StringFlag{
 				Name:        "otx-api-key",
 				Usage:       "OTX API key",
-				EnvVars:     []string{"PACMAN_OTX_API_KEY"},
+				EnvVars:     []string{"DRONE_OTX_API_KEY"},
 				Destination: &otxCfg.apiKey,
 				Required:    true,
 			},

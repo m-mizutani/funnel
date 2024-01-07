@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
+	"github.com/m-mizutani/drone/pkg/domain/model"
+	"github.com/m-mizutani/drone/pkg/feed/abusech"
+	"github.com/m-mizutani/drone/pkg/infra/bq"
 	"github.com/m-mizutani/gt"
-	"github.com/m-mizutani/pacman/pkg/domain/model"
-	"github.com/m-mizutani/pacman/pkg/feed/abusech"
-	"github.com/m-mizutani/pacman/pkg/infra/bq"
 )
 
 func TestFeodoIntegration(t *testing.T) {

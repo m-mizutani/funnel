@@ -3,10 +3,10 @@ package config
 import (
 	"context"
 
+	"github.com/m-mizutani/drone/pkg/domain/interfaces"
+	"github.com/m-mizutani/drone/pkg/domain/types"
+	"github.com/m-mizutani/drone/pkg/infra/bq"
 	"github.com/m-mizutani/goerr"
-	"github.com/m-mizutani/pacman/pkg/domain/interfaces"
-	"github.com/m-mizutani/pacman/pkg/domain/types"
-	"github.com/m-mizutani/pacman/pkg/infra/bq"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/api/option"
 )
@@ -24,27 +24,27 @@ func (x *BigQuery) Flags() []cli.Flag {
 			Name:        "bq-project-id",
 			Usage:       "BigQuery project ID",
 			Destination: &x.projectID,
-			EnvVars:     []string{"PACMAN_BIGQUERY_PROJECT_ID"},
+			EnvVars:     []string{"DRONE_BIGQUERY_PROJECT_ID"},
 			Required:    true,
 		},
 		&cli.StringFlag{
 			Name:        "bq-dataset-id",
 			Usage:       "BigQuery dataset ID",
 			Destination: &x.datasetID,
-			EnvVars:     []string{"PACMAN_BIGQUERY_DATASET_ID"},
+			EnvVars:     []string{"DRONE_BIGQUERY_DATASET_ID"},
 			Required:    true,
 		},
 		&cli.StringFlag{
 			Name:        "bq-sa-key-data",
 			Usage:       "BigQuery service account key data",
 			Destination: &x.saKeyData,
-			EnvVars:     []string{"PACMAN_BIGQUERY_SA_KEY_DATA"},
+			EnvVars:     []string{"DRONE_BIGQUERY_SA_KEY_DATA"},
 		},
 		&cli.StringFlag{
 			Name:        "bq-sa-key-file",
 			Usage:       "BigQuery service account key file",
 			Destination: &x.saKeyFile,
-			EnvVars:     []string{"PACMAN_BIGQUERY_SA_KEY_FILE"},
+			EnvVars:     []string{"DRONE_BIGQUERY_SA_KEY_FILE"},
 		},
 	}
 }

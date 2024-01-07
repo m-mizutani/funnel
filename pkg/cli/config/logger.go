@@ -9,10 +9,10 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/m-mizutani/clog"
+	"github.com/m-mizutani/drone/pkg/domain/types"
+	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/m-mizutani/goerr"
 	"github.com/m-mizutani/masq"
-	"github.com/m-mizutani/pacman/pkg/domain/types"
-	"github.com/m-mizutani/pacman/pkg/utils"
 	"github.com/urfave/cli/v2"
 )
 
@@ -28,7 +28,7 @@ func (x *Logger) Flags() []cli.Flag {
 			Name:        "log-level",
 			Category:    "logging",
 			Aliases:     []string{"l"},
-			EnvVars:     []string{"PACMAN_LOG_LEVEL"},
+			EnvVars:     []string{"DRONE_LOG_LEVEL"},
 			Usage:       "Set log level [debug|info|warn|error]",
 			Value:       "info",
 			Destination: &x.level,
@@ -37,7 +37,7 @@ func (x *Logger) Flags() []cli.Flag {
 			Name:        "log-format",
 			Category:    "logging",
 			Aliases:     []string{"f"},
-			EnvVars:     []string{"PACMAN_LOG_FORMAT"},
+			EnvVars:     []string{"DRONE_LOG_FORMAT"},
 			Usage:       "Set log format [console|json]",
 			Value:       "console",
 			Destination: &x.format,
@@ -46,7 +46,7 @@ func (x *Logger) Flags() []cli.Flag {
 			Name:        "log-output",
 			Category:    "logging",
 			Aliases:     []string{"o"},
-			EnvVars:     []string{"PACMAN_LOG_OUTPUT"},
+			EnvVars:     []string{"DRONE_LOG_OUTPUT"},
 			Usage:       "Set log output (create file other than '-', 'stdout', 'stderr')",
 			Value:       "stderr",
 			Destination: &x.output,

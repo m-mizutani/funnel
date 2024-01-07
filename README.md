@@ -1,8 +1,8 @@
-# pacman
+# drone
 
 A tool to import IoC feeds from provider and save records to BigQuery table.
 
-![logo](https://github.com/m-mizutani/pacman/assets/605953/f1ba68ae-184c-4342-a32f-70663e865902)
+![logo](https://github.com/m-mizutani/drone/assets/605953/f1ba68ae-184c-4342-a32f-70663e865902)
 
 ## Features
 
@@ -25,13 +25,13 @@ A tool to import IoC feeds from provider and save records to BigQuery table.
 ### Installation
 
 ```bash
-$ go install github.com/m-mizutani/pacman@latest
+$ go install github.com/m-mizutani/drone@latest
 ```
 
 or
 
 ```bash
-$ docker run ghcr.io/m-mizutani/pacman:latest
+$ docker run ghcr.io/m-mizutani/drone:latest
 ```
 
 ### Usage
@@ -39,22 +39,22 @@ $ docker run ghcr.io/m-mizutani/pacman:latest
 #### Import AlienVault OTX pulses
 
 ```bash
-$ export PACMAN_BIGQUERY_PROJECT_ID=your-project-id
-$ export PACMAN_BIGQUERY_DATASET_ID=your_dataset_id
-$ export PACMAN_BIGQUERY_SA_KEY_FILE=/path/to/your_service_account_key.json
-# If you want to set credential directly, use PACMAN_BIGQUERY_SA_KEY_DATA
-# export PACMAN_BIGQUERY_SA_KEY_DATA=$(cat /path/to/your_service_account_key.json)
-$ export PACMAN_OTX_API_KEY=abcde12345XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-$ pacman import otx subscribed
+$ export DRONE_BIGQUERY_PROJECT_ID=your-project-id
+$ export DRONE_BIGQUERY_DATASET_ID=your_dataset_id
+$ export DRONE_BIGQUERY_SA_KEY_FILE=/path/to/your_service_account_key.json
+# If you want to set credential directly, use DRONE_BIGQUERY_SA_KEY_DATA
+# export DRONE_BIGQUERY_SA_KEY_DATA=$(cat /path/to/your_service_account_key.json)
+$ export DRONE_OTX_API_KEY=abcde12345XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+$ drone import otx subscribed
 ```
 
 #### Import Abuse.ch Feodo
 
 ```bash
-$ export PACMAN_BIGQUERY_PROJECT_ID=your-project-id
-$ export PACMAN_BIGQUERY_DATASET_ID=your_dataset_id
-$ export PACMAN_BIGQUERY_SA_KEY_FILE=/path/to/your_service_account_key.json
-$ pacman import abusech feodo
+$ export DRONE_BIGQUERY_PROJECT_ID=your-project-id
+$ export DRONE_BIGQUERY_DATASET_ID=your_dataset_id
+$ export DRONE_BIGQUERY_SA_KEY_FILE=/path/to/your_service_account_key.json
+$ drone import abusech feodo
 ```
 
 ## License

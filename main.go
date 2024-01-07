@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/m-mizutani/pacman/pkg/cli"
+	"github.com/m-mizutani/drone/pkg/cli"
 )
 
 func main() {

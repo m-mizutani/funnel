@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
+	"github.com/m-mizutani/drone/pkg/feed/otx"
+	"github.com/m-mizutani/drone/pkg/infra/bq"
+	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/m-mizutani/gt"
-	"github.com/m-mizutani/pacman/pkg/feed/otx"
-	"github.com/m-mizutani/pacman/pkg/infra/bq"
-	"github.com/m-mizutani/pacman/pkg/utils"
 )
 
 func TestSubscribedIntegration(t *testing.T) {

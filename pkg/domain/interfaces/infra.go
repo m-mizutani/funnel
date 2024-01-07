@@ -3,7 +3,7 @@ package interfaces
 import (
 	"context"
 
-	"github.com/m-mizutani/pacman/pkg/domain/model"
+	"github.com/m-mizutani/drone/pkg/domain/model"
 )
 
 type BigQuery interface {

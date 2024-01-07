@@ -3,8 +3,8 @@ package bq
 import (
 	"context"
 
-	"github.com/m-mizutani/pacman/pkg/domain/interfaces"
-	"github.com/m-mizutani/pacman/pkg/domain/model"
+	"github.com/m-mizutani/drone/pkg/domain/interfaces"
+	"github.com/m-mizutani/drone/pkg/domain/model"
 )
 
 type Mock struct {

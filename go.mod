@@ -1,4 +1,4 @@
-module github.com/m-mizutani/pacman
+module github.com/m-mizutani/drone
 
 go 1.21.0
 
