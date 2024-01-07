@@ -2,7 +2,7 @@
 
 A tool to import IoC feeds from provider and save records to BigQuery table.
 
-![logo](https://github.com/m-mizutani/drone/assets/605953/f1ba68ae-184c-4342-a32f-70663e865902)
+![logo](https://github.com/m-mizutani/drone/assets/605953/7ee3c4c6-9b4e-4ad2-9249-8ff131d19e05)
 
 ## Features
 
