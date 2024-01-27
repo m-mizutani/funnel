@@ -30,7 +30,7 @@ func (x *MemDB) PutImportLog(ctx context.Context, id types.FeedID, log *model.Im
 	x.rwLock.Lock()
 	defer x.rwLock.Unlock()
 
-	if old, ok := x.latestLogs[id]; ok && old.ImportedAt.After(log.ImportedAt) {
+	if old, ok := x.latestLogs[id]; ok && old.LatestRecord.After(log.LatestRecord) {
 		return nil
 	}
 

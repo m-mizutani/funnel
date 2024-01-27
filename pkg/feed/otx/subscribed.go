@@ -43,7 +43,7 @@ func (x *Subscribed) Import(ctx context.Context, clients *infra.Clients) error {
 	if log, err := clients.Database().GetLatestImportLog(ctx, types.FeedOTXSubscribed); err != nil {
 		return goerr.Wrap(err, "Fail to get latest time of pulse table")
 	} else if log != nil {
-		since = log.Timestamp
+		since = log.LatestRecord
 	} else {
 		since = time.Now().Add(-initialPeriod)
 	}
@@ -125,9 +125,8 @@ func (x *Subscribed) Import(ctx context.Context, clients *infra.Clients) error {
 
 	if latest != nil {
 		log := model.ImportLog{
-			TableName:  pulseTable,
-			ImportedAt: time.Now(),
-			Timestamp:  *latest,
+			CheckedAt:    time.Now(),
+			LatestRecord: *latest,
 		}
 		if err := clients.Database().PutImportLog(ctx, types.FeedOTXSubscribed, &log); err != nil {
 			return goerr.Wrap(err, "Fail to put latest time")

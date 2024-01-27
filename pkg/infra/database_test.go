@@ -52,24 +52,20 @@ func testDB(t *testing.T, db interfaces.Database) {
 func testBasic(t testing.TB, db interfaces.Database) {
 	now := time.Now()
 	log1 := model.ImportLog{
-		TableName:  "test",
-		ImportedAt: now,
-		Timestamp:  now,
+		LatestRecord: now,
+		CheckedAt:    now,
 	}
 	log2 := model.ImportLog{
-		TableName:  "test",
-		ImportedAt: now.Add(4 * time.Second),
-		Timestamp:  now.Add(4 * time.Hour),
+		LatestRecord: now.Add(4 * time.Second),
+		CheckedAt:    now.Add(4 * time.Hour),
 	}
 	log3 := model.ImportLog{
-		TableName:  "test",
-		ImportedAt: now.Add(2 * time.Second),
-		Timestamp:  now.Add(2 * time.Hour),
+		LatestRecord: now.Add(2 * time.Second),
+		CheckedAt:    now.Add(2 * time.Hour),
 	}
 	log4 := model.ImportLog{
-		TableName:  "test",
-		ImportedAt: now.Add(5 * time.Second),
-		Timestamp:  now.Add(5 * time.Hour),
+		LatestRecord: now.Add(5 * time.Second),
+		CheckedAt:    now.Add(5 * time.Hour),
 	}
 
 	ctx := context.Background()
@@ -80,7 +76,7 @@ func testBasic(t testing.TB, db interfaces.Database) {
 
 	log, err := db.GetLatestImportLog(ctx, "test")
 	gt.NoError(t, err)
-	gt.Equal(t, log.ImportedAt.Unix(), now.Add(4*time.Second).Unix())
+	gt.Equal(t, log.LatestRecord.Unix(), now.Add(4*time.Second).Unix())
 }
 
 func testRandomPut(t *testing.T, db interfaces.Database) {
@@ -98,9 +94,8 @@ func testRandomPut(t *testing.T, db interfaces.Database) {
 	for i := 0; i < logCount; i++ {
 		maxTS = now.Add(time.Duration(i) * time.Second)
 		logs = append(logs, &model.ImportLog{
-			TableName:  "test",
-			ImportedAt: maxTS,
-			Timestamp:  now,
+			LatestRecord: maxTS,
+			CheckedAt:    now,
 		})
 	}
 
@@ -131,5 +126,5 @@ func testRandomPut(t *testing.T, db interfaces.Database) {
 
 	wg.Wait()
 	log := gt.R1(db.GetLatestImportLog(ctx, feedID)).NoError(t)
-	gt.Equal(t, log.ImportedAt.Unix(), maxTS.Unix())
+	gt.Equal(t, log.LatestRecord.Unix(), maxTS.Unix())
 }

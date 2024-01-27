@@ -85,7 +85,7 @@ func (f *Feodo) Import(ctx context.Context, clients *infra.Clients) error {
 		if err != nil {
 			return goerr.Wrap(err, "Fail to parse last_online").With("last_online", rec.LastOnline)
 		}
-		if log == nil || log.Timestamp.Before(firstSeen) {
+		if log == nil || log.LatestRecord.Before(firstSeen) {
 			newRecords = append(newRecords, FeodoRecord{
 				FeodoResponse: rec,
 				FirstSeen:     firstSeen,
@@ -107,9 +107,8 @@ func (f *Feodo) Import(ctx context.Context, clients *infra.Clients) error {
 
 	if latest != nil {
 		if err := clients.Database().PutImportLog(ctx, types.FeedAbuseChFeodo, &model.ImportLog{
-			TableName:  tableName,
-			Timestamp:  *latest,
-			ImportedAt: time.Now(),
+			LatestRecord: *latest,
+			CheckedAt:    time.Now(),
 		}); err != nil {
 			return goerr.Wrap(err, "Fail to put import log").With("table", tableName)
 		}
