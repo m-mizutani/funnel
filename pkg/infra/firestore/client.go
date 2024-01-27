@@ -74,7 +74,7 @@ func (x *Client) PutImportLog(ctx context.Context, id types.FeedID, log *model.I
 				return goerr.Wrap(err, "failed to convert import log").With("id", id)
 			}
 
-			if oldLog.ImportedAt.After(log.ImportedAt) {
+			if oldLog.LatestRecord.After(log.LatestRecord) {
 				return nil
 			}
 		}
