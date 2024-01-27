@@ -118,18 +118,18 @@ func (x *Subscribed) Import(ctx context.Context, clients *infra.Clients) error {
 		}
 		target = *nextURL
 
+		if latest != nil {
+			log := model.ImportLog{
+				CheckedAt:    time.Now(),
+				LatestRecord: *latest,
+			}
+			if err := clients.Database().PutImportLog(ctx, types.FeedOTXSubscribed, &log); err != nil {
+				return goerr.Wrap(err, "Fail to put latest time")
+			}
+		}
+
 		if apiResp.Next == "" {
 			break
-		}
-	}
-
-	if latest != nil {
-		log := model.ImportLog{
-			CheckedAt:    time.Now(),
-			LatestRecord: *latest,
-		}
-		if err := clients.Database().PutImportLog(ctx, types.FeedOTXSubscribed, &log); err != nil {
-			return goerr.Wrap(err, "Fail to put latest time")
 		}
 	}
 
