@@ -2,14 +2,16 @@ package cli
 
 import (
 	"github.com/m-mizutani/drone/pkg/cli/config"
-	"github.com/m-mizutani/drone/pkg/feed/abusech"
+	"github.com/m-mizutani/drone/pkg/feed/abuse_ch"
 	"github.com/m-mizutani/drone/pkg/feed/otx"
+	"github.com/m-mizutani/drone/pkg/infra"
 	"github.com/m-mizutani/goerr"
 	"github.com/urfave/cli/v2"
 )
 
 type importConfig struct {
-	bq config.BigQuery
+	bq        config.BigQuery
+	firestore config.Firestore
 }
 
 func subImport() *cli.Command {
@@ -19,7 +21,7 @@ func subImport() *cli.Command {
 		Name:    "import",
 		Usage:   "Import feed data to BigQuery",
 		Aliases: []string{"i"},
-		Flags:   mergeFlags([]cli.Flag{}, &cfg.bq),
+		Flags:   mergeFlags([]cli.Flag{}, &cfg.bq, &cfg.firestore),
 		Subcommands: []*cli.Command{
 			subImportOtx(&cfg),
 			subImportAbuseCh(&cfg),
@@ -65,9 +67,17 @@ func subImportOtxSubscribed(cfg *importConfig, otxCfg *otxConfig) *cli.Command {
 			if err != nil {
 				return goerr.Wrap(err, "Fail to configure BigQuery")
 			}
+			dbClient, err := cfg.firestore.Configure(ctx.Context)
+			if err != nil {
+				return goerr.Wrap(err, "Fail to configure Firestore")
+			}
 
 			otxClient := otx.NewSubscribed(otxCfg.apiKey)
-			if err := otxClient.Import(ctx.Context, bqClient); err != nil {
+			clients := infra.New(
+				infra.WithBigQuery(bqClient),
+				infra.WithDatabase(dbClient),
+			)
+			if err := otxClient.Import(ctx.Context, clients); err != nil {
 				return goerr.Wrap(err, "Fail to import OTX subscribed")
 			}
 
@@ -98,9 +108,17 @@ func subImportAbuseChFeodo(cfg *importConfig) *cli.Command {
 			if err != nil {
 				return goerr.Wrap(err, "Fail to configure BigQuery")
 			}
+			dbClient, err := cfg.firestore.Configure(ctx.Context)
+			if err != nil {
+				return goerr.Wrap(err, "Fail to configure Firestore")
+			}
 
-			feed := abusech.NewFeodo()
-			if err := feed.Import(ctx.Context, bqClient); err != nil {
+			feed := abuse_ch.NewFeodo()
+			clients := infra.New(
+				infra.WithBigQuery(bqClient),
+				infra.WithDatabase(dbClient),
+			)
+			if err := feed.Import(ctx.Context, clients); err != nil {
 				return goerr.Wrap(err, "Fail to import OTX subscribed")
 			}
 

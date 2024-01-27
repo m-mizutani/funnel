@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/m-mizutani/drone/pkg/feed/otx"
+	"github.com/m-mizutani/drone/pkg/infra"
 	"github.com/m-mizutani/drone/pkg/infra/bq"
 	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/m-mizutani/gt"
@@ -27,5 +28,7 @@ func TestSubscribedIntegration(t *testing.T) {
 
 	ctx := context.Background()
 	bqClient := gt.R1(bq.New(ctx, bqProjectID, bqDatasetID)).NoError(t)
-	gt.NoError(t, otx.NewSubscribed(apiKey).Import(ctx, bqClient))
+	clients := infra.New(infra.WithBigQuery(bqClient))
+
+	gt.NoError(t, otx.NewSubscribed(apiKey).Import(ctx, clients))
 }

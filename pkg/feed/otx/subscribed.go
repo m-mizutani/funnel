@@ -7,8 +7,9 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/m-mizutani/drone/pkg/domain/interfaces"
 	"github.com/m-mizutani/drone/pkg/domain/model"
+	"github.com/m-mizutani/drone/pkg/domain/types"
+	"github.com/m-mizutani/drone/pkg/infra"
 	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/m-mizutani/goerr"
 )
@@ -29,17 +30,17 @@ const (
 	initialPeriod = 24 * time.Hour * 30
 )
 
-func (x *Subscribed) Import(ctx context.Context, bq interfaces.BigQuery) error {
+func (x *Subscribed) Import(ctx context.Context, clients *infra.Clients) error {
 	const (
 		pulseTable = "otx_pulses"
 	)
 
-	if err := bq.Migrate(ctx, pulseTable, &PulseLog{}); err != nil {
+	if err := clients.BigQuery().Migrate(ctx, pulseTable, &PulseLog{}); err != nil {
 		return goerr.Wrap(err, "Fail to migrate pulse table")
 	}
 
 	var since time.Time
-	if log, err := bq.GetLatestImportLog(ctx, pulseTable); err != nil {
+	if log, err := clients.Database().GetLatestImportLog(ctx, types.FeedOTXSubscribed); err != nil {
 		return goerr.Wrap(err, "Fail to get latest time of pulse table")
 	} else if log != nil {
 		since = log.Timestamp
@@ -107,7 +108,7 @@ func (x *Subscribed) Import(ctx context.Context, bq interfaces.BigQuery) error {
 			"len(pulseLogs)", len(pulseLogs),
 		)
 
-		if err := bq.Insert(ctx, pulseTable, pulseLogs); err != nil {
+		if err := clients.BigQuery().Insert(ctx, pulseTable, pulseLogs); err != nil {
 			return goerr.Wrap(err, "Fail to insert pulse logs")
 		}
 
@@ -128,7 +129,7 @@ func (x *Subscribed) Import(ctx context.Context, bq interfaces.BigQuery) error {
 			ImportedAt: time.Now(),
 			Timestamp:  *latest,
 		}
-		if err := bq.PutImportLog(ctx, &log); err != nil {
+		if err := clients.Database().PutImportLog(ctx, types.FeedOTXSubscribed, &log); err != nil {
 			return goerr.Wrap(err, "Fail to put latest time")
 		}
 	}

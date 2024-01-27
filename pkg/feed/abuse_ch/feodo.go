@@ -1,4 +1,4 @@
-package abusech
+package abuse_ch
 
 import (
 	"context"
@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/m-mizutani/drone/pkg/domain/interfaces"
 	"github.com/m-mizutani/drone/pkg/domain/model"
+	"github.com/m-mizutani/drone/pkg/domain/types"
+	"github.com/m-mizutani/drone/pkg/infra"
 	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/m-mizutani/goerr"
 )
@@ -42,10 +43,10 @@ type FeodoRecord struct {
 	LastOnline time.Time `json:"last_online" bigquery:"last_online"`
 }
 
-func (f *Feodo) Import(ctx context.Context, bq interfaces.BigQuery) error {
+func (f *Feodo) Import(ctx context.Context, clients *infra.Clients) error {
 	const tableName = "abusech_feodo"
 
-	if err := bq.Migrate(ctx, tableName, &FeodoRecord{}); err != nil {
+	if err := clients.BigQuery().Migrate(ctx, tableName, &FeodoRecord{}); err != nil {
 		return goerr.Wrap(err, "Fail to migrate feodo table")
 	}
 
@@ -68,9 +69,9 @@ func (f *Feodo) Import(ctx context.Context, bq interfaces.BigQuery) error {
 		return goerr.Wrap(err, "Fail to decode response").With("url", feodoURL)
 	}
 
-	log, err := bq.GetLatestImportLog(ctx, tableName)
+	log, err := clients.Database().GetLatestImportLog(ctx, types.FeedAbuseChFeodo)
 	if err != nil {
-		return goerr.Wrap(err, "Fail to get latest import log").With("table", tableName)
+		return goerr.Wrap(err, "Fail to get latest import log").With("feed", types.FeedAbuseChFeodo)
 	}
 
 	var latest *time.Time
@@ -99,13 +100,13 @@ func (f *Feodo) Import(ctx context.Context, bq interfaces.BigQuery) error {
 	utils.Logger().Info("Imported Feodo", "new_records", len(newRecords))
 
 	if len(newRecords) > 0 {
-		if err := bq.Insert(ctx, tableName, newRecords); err != nil {
+		if err := clients.BigQuery().Insert(ctx, tableName, newRecords); err != nil {
 			return goerr.Wrap(err, "Fail to insert data").With("table", tableName)
 		}
 	}
 
 	if latest != nil {
-		if err := bq.PutImportLog(ctx, &model.ImportLog{
+		if err := clients.Database().PutImportLog(ctx, types.FeedAbuseChFeodo, &model.ImportLog{
 			TableName:  tableName,
 			Timestamp:  *latest,
 			ImportedAt: time.Now(),
