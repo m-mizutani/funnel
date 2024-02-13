@@ -16,7 +16,7 @@ func NewMock() *Mock {
 	return &Mock{}
 }
 
-func (x *Mock) Migrate(ctx context.Context, tableName string, schema any) error {
+func (x *Mock) CreateOrUpdateSchema(ctx context.Context, tableName string, target any) error {
 	return nil
 }
 

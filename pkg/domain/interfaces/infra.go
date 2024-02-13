@@ -8,7 +8,7 @@ import (
 )
 
 type BigQuery interface {
-	Migrate(ctx context.Context, tableName string, schema any) error
+	CreateOrUpdateSchema(ctx context.Context, tableName string, target any) error
 	Insert(ctx context.Context, tableName string, data any) error
 }
 

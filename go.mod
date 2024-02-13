@@ -6,20 +6,22 @@ require (
 	cloud.google.com/go/bigquery v1.58.0
 	cloud.google.com/go/firestore v1.14.0
 	github.com/fatih/color v1.16.0
+	github.com/google/uuid v1.6.0
+	github.com/m-mizutani/bqs v0.0.1
 	github.com/m-mizutani/clog v0.0.4
 	github.com/m-mizutani/goerr v0.1.11
-	github.com/m-mizutani/gt v0.0.5
+	github.com/m-mizutani/gt v0.0.10
 	github.com/m-mizutani/masq v0.1.5
 	github.com/urfave/cli/v2 v2.27.1
-	google.golang.org/api v0.159.0
+	google.golang.org/api v0.161.0
 	google.golang.org/grpc v1.61.0
 )
 
 require (
 	cloud.google.com/go v0.112.0 // indirect
-	cloud.google.com/go/compute v1.23.3 // indirect
+	cloud.google.com/go/compute v1.23.4 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
-	cloud.google.com/go/iam v1.1.5 // indirect
+	cloud.google.com/go/iam v1.1.6 // indirect
 	cloud.google.com/go/longrunning v0.5.4 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/apache/arrow/go/v12 v12.0.1 // indirect
@@ -35,7 +37,6 @@ require (
 	github.com/google/flatbuffers v23.5.26+incompatible // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/s2a-go v0.1.7 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
 	github.com/k0kubun/pp/v3 v3.2.0 // indirect

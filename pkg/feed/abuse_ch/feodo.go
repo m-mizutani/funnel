@@ -46,7 +46,7 @@ type FeodoRecord struct {
 func (f *Feodo) Import(ctx context.Context, clients *infra.Clients) error {
 	const tableName = "abusech_feodo"
 
-	if err := clients.BigQuery().Migrate(ctx, tableName, &FeodoRecord{}); err != nil {
+	if err := clients.BigQuery().CreateOrUpdateSchema(ctx, tableName, &FeodoRecord{}); err != nil {
 		return goerr.Wrap(err, "Fail to migrate feodo table")
 	}
 

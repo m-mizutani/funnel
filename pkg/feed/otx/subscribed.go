@@ -35,7 +35,7 @@ func (x *Subscribed) Import(ctx context.Context, clients *infra.Clients) error {
 		pulseTable = "otx_pulses"
 	)
 
-	if err := clients.BigQuery().Migrate(ctx, pulseTable, &PulseLog{}); err != nil {
+	if err := clients.BigQuery().CreateOrUpdateSchema(ctx, pulseTable, &PulseLog{}); err != nil {
 		return goerr.Wrap(err, "Fail to migrate pulse table")
 	}
 
