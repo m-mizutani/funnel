@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/m-mizutani/bqs"
 	"github.com/m-mizutani/drone/pkg/domain/model"
 	"github.com/m-mizutani/drone/pkg/domain/types"
 	"github.com/m-mizutani/drone/pkg/infra"
@@ -35,7 +36,12 @@ func (x *Subscribed) Import(ctx context.Context, clients *infra.Clients) error {
 		pulseTable = "otx_pulses"
 	)
 
-	if err := clients.BigQuery().Migrate(ctx, pulseTable, &PulseLog{}); err != nil {
+	schema, err := bqs.Infer(&PulseLog{})
+	if err != nil {
+		return goerr.Wrap(err, "Fail to infer schema")
+	}
+
+	if err := clients.BigQuery().CreateOrUpdateSchema(ctx, pulseTable, schema); err != nil {
 		return goerr.Wrap(err, "Fail to migrate pulse table")
 	}
 
