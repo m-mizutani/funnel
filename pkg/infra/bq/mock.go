@@ -3,6 +3,7 @@ package bq
 import (
 	"context"
 
+	"cloud.google.com/go/bigquery"
 	"github.com/m-mizutani/drone/pkg/domain/interfaces"
 )
 
@@ -16,7 +17,7 @@ func NewMock() *Mock {
 	return &Mock{}
 }
 
-func (x *Mock) CreateOrUpdateSchema(ctx context.Context, tableName string, target any) error {
+func (x *Mock) CreateOrUpdateSchema(ctx context.Context, tableName string, schema bigquery.Schema) error {
 	return nil
 }
 

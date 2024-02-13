@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/m-mizutani/bqs"
 	"github.com/m-mizutani/drone/pkg/domain/model"
 	"github.com/m-mizutani/drone/pkg/domain/types"
 	"github.com/m-mizutani/drone/pkg/infra"
@@ -46,7 +47,12 @@ type FeodoRecord struct {
 func (f *Feodo) Import(ctx context.Context, clients *infra.Clients) error {
 	const tableName = "abusech_feodo"
 
-	if err := clients.BigQuery().CreateOrUpdateSchema(ctx, tableName, &FeodoRecord{}); err != nil {
+	schema, err := bqs.Infer(&FeodoRecord{})
+	if err != nil {
+		return goerr.Wrap(err, "Fail to infer schema")
+	}
+
+	if err := clients.BigQuery().CreateOrUpdateSchema(ctx, tableName, schema); err != nil {
 		return goerr.Wrap(err, "Fail to migrate feodo table")
 	}
 

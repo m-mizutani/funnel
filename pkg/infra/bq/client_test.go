@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/bigquery"
+	"github.com/m-mizutani/bqs"
 	"github.com/m-mizutani/drone/pkg/infra/bq"
 	"github.com/m-mizutani/gt"
 )
@@ -38,8 +39,10 @@ func TestBigQuerySchemaUpdate(t *testing.T) {
 		Number int
 	}
 
-	gt.NoError(t, client.CreateOrUpdateSchema(ctx, tableID, TestData1{}))
-	gt.NoError(t, client.CreateOrUpdateSchema(ctx, tableID, TestData2{}))
+	s1 := gt.R1(bqs.Infer(&TestData1{})).NoError(t)
+	s2 := gt.R1(bqs.Infer(&TestData2{})).NoError(t)
+	gt.NoError(t, client.CreateOrUpdateSchema(ctx, tableID, s1))
+	gt.NoError(t, client.CreateOrUpdateSchema(ctx, tableID, s2))
 
 	md := gt.R1(table.Metadata(ctx)).NoError(t)
 	gt.A(t, md.Schema).Length(2).

@@ -52,12 +52,7 @@ func New(ctx context.Context, projectID, datasetID string, options ...option.Cli
 	}, nil
 }
 
-func (x *client) CreateOrUpdateSchema(ctx context.Context, tableName string, target any) error {
-	schema, err := bqs.Infer(target)
-	if err != nil {
-		return goerr.Wrap(err, "failed to infer schema").With("table", tableName).With("target", target)
-	}
-
+func (x *client) CreateOrUpdateSchema(ctx context.Context, tableName string, schema bigquery.Schema) error {
 	table := x.dataSet.Table(tableName)
 	md, err := table.Metadata(ctx)
 	if err != nil {
