@@ -8,6 +8,7 @@ require (
 	cloud.google.com/go/bigquery v1.59.1
 	cloud.google.com/go/firestore v1.14.0
 	github.com/fatih/color v1.16.0
+	github.com/getsentry/sentry-go v0.27.0
 	github.com/google/uuid v1.6.0
 	github.com/m-mizutani/bqs v0.0.2-0.20240228055510-9c94a5c67376
 	github.com/m-mizutani/clog v0.0.4
