@@ -38,7 +38,7 @@ func Run(args []string) error {
 	}
 
 	if err := app.Run(args); err != nil {
-		utils.Logger().Error("Failed to run drone", utils.ErrLog(err))
+		utils.HandleError("failed to run drone", err)
 		return err
 	}
 

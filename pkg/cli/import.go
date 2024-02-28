@@ -12,6 +12,7 @@ import (
 type importConfig struct {
 	bq        config.BigQuery
 	firestore config.Firestore
+	sentry    config.Sentry
 }
 
 func subImport() *cli.Command {
@@ -21,10 +22,16 @@ func subImport() *cli.Command {
 		Name:    "import",
 		Usage:   "Import feed data to BigQuery",
 		Aliases: []string{"i"},
-		Flags:   mergeFlags([]cli.Flag{}, &cfg.bq, &cfg.firestore),
+		Flags:   mergeFlags([]cli.Flag{}, &cfg.bq, &cfg.firestore, &cfg.sentry),
 		Subcommands: []*cli.Command{
 			subImportOtx(&cfg),
 			subImportAbuseCh(&cfg),
+		},
+		Before: func(ctx *cli.Context) error {
+			if err := cfg.sentry.Configure(); err != nil {
+				return goerr.Wrap(err, "fail to configure sentry")
+			}
+			return nil
 		},
 	}
 }
