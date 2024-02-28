@@ -26,22 +26,22 @@ const (
 )
 
 type FeodoResponse struct {
-	AsName     string `json:"as_name" bigquery:"as_name"`
-	AsNumber   int64  `json:"as_number" bigquery:"as_number"`
-	Country    string `json:"country" bigquery:"country"`
-	FirstSeen  string `json:"first_seen" bigquery:"-"`
-	Hostname   string `json:"hostname" bigquery:"hostname"`
-	IPAddress  string `json:"ip_address" bigquery:"ip_address"`
-	LastOnline string `json:"last_online" bigquery:"-"`
-	Malware    string `json:"malware" bigquery:"malware"`
-	Port       int64  `json:"port" bigquery:"port"`
-	Status     string `json:"status" bigquery:"status"`
+	AsName     string `json:"as_name"`
+	AsNumber   int64  `json:"as_number"`
+	Country    string `json:"country"`
+	FirstSeen  string `json:"first_seen"`
+	Hostname   string `json:"hostname"`
+	IPAddress  string `json:"ip_address"`
+	LastOnline string `json:"last_online"`
+	Malware    string `json:"malware"`
+	Port       int64  `json:"port"`
+	Status     string `json:"status"`
 }
 
 type FeodoRecord struct {
 	FeodoResponse
-	FirstSeen  time.Time `json:"first_seen" bigquery:"first_seen"`
-	LastOnline time.Time `json:"last_online" bigquery:"last_online"`
+	FirstSeen  time.Time
+	LastOnline time.Time
 }
 
 func (f *Feodo) Import(ctx context.Context, clients *infra.Clients) error {
