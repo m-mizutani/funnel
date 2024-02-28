@@ -8,7 +8,6 @@ import (
 	"cloud.google.com/go/bigquery"
 	"github.com/m-mizutani/bqs"
 	"github.com/m-mizutani/drone/pkg/domain/interfaces"
-	"github.com/m-mizutani/drone/pkg/domain/model"
 	"github.com/m-mizutani/drone/pkg/utils"
 	"github.com/m-mizutani/goerr"
 	"google.golang.org/api/googleapi"
@@ -20,10 +19,6 @@ type client struct {
 	client  *bigquery.Client
 }
 
-const (
-	importLogTable = "import_logs"
-)
-
 func New(ctx context.Context, projectID, datasetID string, options ...option.ClientOption) (interfaces.BigQuery, error) {
 	c, err := bigquery.NewClient(ctx, projectID, options...)
 	if err != nil {
@@ -31,20 +26,6 @@ func New(ctx context.Context, projectID, datasetID string, options ...option.Cli
 	}
 
 	dataSet := c.Dataset(datasetID)
-	table := dataSet.Table(importLogTable)
-	schema, err := bigquery.InferSchema(&model.ImportLog{})
-	if err != nil {
-		return nil, goerr.Wrap(err, "failed to infer schema of import_logs")
-	}
-
-	meta := &bigquery.TableMetadata{
-		Schema: schema,
-	}
-	if err := table.Create(ctx, meta); err != nil {
-		if gerr, ok := err.(*googleapi.Error); !ok || gerr.Code != 409 {
-			return nil, goerr.Wrap(err, "failed to create table of import_logs")
-		}
-	}
 
 	return &client{
 		client:  c,

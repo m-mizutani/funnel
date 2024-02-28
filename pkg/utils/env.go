@@ -2,6 +2,7 @@ package utils
 
 import (
 	"os"
+	"testing"
 
 	"github.com/m-mizutani/goerr"
 )
@@ -26,4 +27,12 @@ func LoadEnv(envs ...EnvLoader) error {
 		}
 	}
 	return nil
+}
+
+func LookupEnv(t *testing.T, key string) string {
+	v, ok := os.LookupEnv(key)
+	if !ok {
+		t.Skipf("No such env: %s", key)
+	}
+	return v
 }
